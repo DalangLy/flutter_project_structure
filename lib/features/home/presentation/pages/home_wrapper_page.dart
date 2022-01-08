@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_structure/core/bloc/logout/logout_bloc.dart';
 import 'package:project_structure/core/bloc/theme_switcher/theme_switcher_bloc.dart';
 
 class HomeWrapperPage extends StatelessWidget {
@@ -49,6 +50,27 @@ class HomeWrapperPage extends StatelessWidget {
                   );
                 },
                 child: const Text('Change To System Theme Mode'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              BlocBuilder<LogoutBloc, LogoutState>(
+                builder: (context, state) {
+                  if (state is LogoutInProgress) {
+                    return const ElevatedButton(
+                      onPressed: null,
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return ElevatedButton(
+                    onPressed: () {
+                      BlocProvider.of<LogoutBloc>(context).add(
+                        const Logout(),
+                      );
+                    },
+                    child: const Text('Logout'),
+                  );
+                },
               ),
             ],
           ),
