@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_structure/core/bloc/start_up_check_auth/start_up_check_auth_bloc.dart';
+import 'package:project_structure/core/bloc/start_up_locale_load/start_up_locale_load_bloc.dart';
 import 'package:project_structure/core/bloc/start_up_theme_load/start_up_theme_load_bloc.dart';
 
 class StartUpLoadingPage extends StatefulWidget {
@@ -51,6 +52,7 @@ class _StartUpLoadingPageState extends State<StartUpLoadingPage>
     BlocProvider.of<StartUpCheckAuthBloc>(context).add(
       const CheckAuth(),
     );
+    BlocProvider.of<StartUpLocaleLoadBloc>(context).add(const LoadLocaleFromLocalStorage());
     BlocProvider.of<StartUpThemeLoadBloc>(context).add(const LoadThemeFromLocalStorage());
   }
 
@@ -70,6 +72,13 @@ class _StartUpLoadingPageState extends State<StartUpLoadingPage>
     _controller.animateTo(_progressValue);
   }
 
+  late String _loadingText = '';
+  void _updateLoadingText({required String text,}){
+    setState(() {
+      _loadingText = text;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
@@ -77,14 +86,24 @@ class _StartUpLoadingPageState extends State<StartUpLoadingPage>
         BlocListener<StartUpCheckAuthBloc, StartUpCheckAuthState>(
           listener: (context, state) {
             if(state is CheckAuthSuccess){
-              _updateProgressValue(0.5);
+              _updateProgressValue(1/3);
+              _updateLoadingText(text: 'Check Auth...');
+            }
+          },
+        ),
+        BlocListener<StartUpLocaleLoadBloc, StartUpLocaleLoadState>(
+          listener: (context, state) {
+            if(state is LoadLocaleFromLocalStorageSuccess){
+              _updateProgressValue(1/3);
+              _updateLoadingText(text: 'Load Locale...');
             }
           },
         ),
         BlocListener<StartUpThemeLoadBloc, StartUpThemeLoadState>(
           listener: (context, state) {
             if(state is LoadThemeFromLocalStorageSuccess){
-              _updateProgressValue(0.5);
+              _updateProgressValue(1/3);
+              _updateLoadingText(text: 'Check Theme...');
             }
           },
         ),
@@ -101,6 +120,7 @@ class _StartUpLoadingPageState extends State<StartUpLoadingPage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text((_animation.value * 100).toString()),
+                      Text(_loadingText),
                       const SizedBox(
                         height: 20,
                       ),
