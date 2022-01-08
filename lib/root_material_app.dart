@@ -100,6 +100,7 @@ class _RootMaterialAppState extends State<RootMaterialApp> {
           )
         ],
         child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           onGenerateTitle: (BuildContext context) =>
           AppLocalizations.of(context)!.title,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
