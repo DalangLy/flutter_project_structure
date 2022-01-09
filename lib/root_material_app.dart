@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_structure/core/bloc/logout/logout_bloc.dart';
+import 'package:project_structure/core/bloc/network_checker/network_checker_bloc.dart';
 import 'package:project_structure/core/bloc/start_up_check_auth/start_up_check_auth_bloc.dart';
 import 'package:project_structure/features/login/presentation/bloc/login_bloc.dart';
 import 'package:project_structure/l10n/gen_l10n/app_localizations.dart';
@@ -144,6 +145,7 @@ class StartUpMultiBlocProvider extends MultiBlocProvider{
       BlocProvider<LogoutBloc>(create: (context) => LogoutBloc(),),
       BlocProvider<LanguageSwitcherBloc>(create: (context) => LanguageSwitcherBloc(),),
       BlocProvider<StartUpLocaleLoadBloc>(create: (context) => StartUpLocaleLoadBloc(),),
+      BlocProvider<NetworkCheckerBloc>(create: (context) => NetworkCheckerBloc()..add(const CheckNetworkStatus()),),
     ]
   );
 }

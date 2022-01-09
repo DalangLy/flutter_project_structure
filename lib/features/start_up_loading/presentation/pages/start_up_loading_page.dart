@@ -119,7 +119,7 @@ class _StartUpLoadingPageState extends State<StartUpLoadingPage>
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text((_animation.value * 100).toString()),
+                      Text('${(_animation.value * 100).toStringAsFixed(0)} %'),
                       Text(_loadingText),
                       const SizedBox(
                         height: 20,
