@@ -10,7 +10,15 @@ class NetworkCheckerInitial extends NetworkCheckerState {
 }
 
 class IsOnline extends NetworkCheckerState {
-  const IsOnline();
+  final String type;
+  const IsOnline({required this.type,});
+
+  @override
+  List<Object> get props => [];
+}
+
+class IsOffline extends NetworkCheckerState {
+  const IsOffline();
 
   @override
   List<Object> get props => [];

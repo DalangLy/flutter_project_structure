@@ -6,6 +6,7 @@ import 'package:project_structure/core/bloc/network_checker/network_checker_bloc
 import 'package:project_structure/core/bloc/start_up_check_auth/start_up_check_auth_bloc.dart';
 import 'package:project_structure/features/login/presentation/bloc/login_bloc.dart';
 import 'package:project_structure/l10n/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'config/routes/router.gr.dart';
 import 'core/bloc/language_switcher/language_switcher_bloc.dart';
 import 'core/bloc/start_up_locale_load/start_up_locale_load_bloc.dart';
@@ -33,7 +34,7 @@ class _RootMaterialAppState extends State<RootMaterialApp> {
   }
 
   late Locale? _locale;
-  void _changeLanguage({required Locale locale,}){
+  void _changeLanguage({required Locale? locale,}){
     setState(() {
       _locale = locale;
     });
@@ -139,12 +140,12 @@ class StartUpMultiBlocProvider extends MultiBlocProvider{
     child: child,
     providers: [
       BlocProvider<StartUpCheckAuthBloc>(create: (context) => StartUpCheckAuthBloc(),),
-      BlocProvider<StartUpThemeLoadBloc>(create: (context) => StartUpThemeLoadBloc(),),
-      BlocProvider<ThemeSwitcherBloc>(create: (context) => ThemeSwitcherBloc(),),
+      BlocProvider<StartUpThemeLoadBloc>(create: (context) => StartUpThemeLoadBloc(localStorage: SharedPreferences.getInstance(),),),
+      BlocProvider<ThemeSwitcherBloc>(create: (context) => ThemeSwitcherBloc(localStorage: SharedPreferences.getInstance(),),),
       BlocProvider<LoginBloc>(create: (context) => LoginBloc(),),
       BlocProvider<LogoutBloc>(create: (context) => LogoutBloc(),),
-      BlocProvider<LanguageSwitcherBloc>(create: (context) => LanguageSwitcherBloc(),),
-      BlocProvider<StartUpLocaleLoadBloc>(create: (context) => StartUpLocaleLoadBloc(),),
+      BlocProvider<LanguageSwitcherBloc>(create: (context) => LanguageSwitcherBloc(localeStorage: SharedPreferences.getInstance(),),),
+      BlocProvider<StartUpLocaleLoadBloc>(create: (context) => StartUpLocaleLoadBloc(localStorage: SharedPreferences.getInstance(),),),
       BlocProvider<NetworkCheckerBloc>(create: (context) => NetworkCheckerBloc()..add(const CheckNetworkStatus()),),
     ]
   );

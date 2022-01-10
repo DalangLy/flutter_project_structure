@@ -17,7 +17,7 @@ class LoadLocaleFromLocalStorageInProgress extends StartUpLocaleLoadState {
 }
 
 class LoadLocaleFromLocalStorageSuccess extends StartUpLocaleLoadState {
-  final Locale locale;
+  final Locale? locale;
   const LoadLocaleFromLocalStorageSuccess({required this.locale,});
 
   @override

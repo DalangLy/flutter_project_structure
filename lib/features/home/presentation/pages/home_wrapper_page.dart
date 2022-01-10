@@ -14,11 +14,10 @@ class HomeWrapperPage extends StatelessWidget {
     return BlocListener<NetworkCheckerBloc, NetworkCheckerState>(
       listener: (context, state) {
         if(state is IsOnline){
-          print('is Online');
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Online')));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Online using ${state.type}'),),);
         }
         else{
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Offline')));
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Offline'),),);
         }
       },
       child: const HomeLayout(
