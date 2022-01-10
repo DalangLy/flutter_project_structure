@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_structure/core/bloc/language_switcher/language_switcher_bloc.dart';
 import 'package:project_structure/core/bloc/logout/logout_bloc.dart';
 import 'package:project_structure/core/bloc/theme_switcher/theme_switcher_bloc.dart';
-import 'package:project_structure/core/enum/app_locale.dart';
+import 'package:project_structure/config/app_locale/app_locale.dart';
 
 class EndDrawer extends StatelessWidget {
   const EndDrawer({Key? key}) : super(key: key);

@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_structure/config/app_theme/app_theme.dart';
 import 'package:project_structure/core/bloc/logout/logout_bloc.dart';
 import 'package:project_structure/core/bloc/network_checker/network_checker_bloc.dart';
 import 'package:project_structure/core/bloc/start_up_check_auth/start_up_check_auth_bloc.dart';
 import 'package:project_structure/features/login/presentation/bloc/login_bloc.dart';
+import 'package:project_structure/injectors/injector.dart';
 import 'package:project_structure/l10n/gen_l10n/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'config/routes/router.gr.dart';
+import 'config/routes/default_route/router.gr.dart';
 import 'core/bloc/language_switcher/language_switcher_bloc.dart';
 import 'core/bloc/start_up_locale_load/start_up_locale_load_bloc.dart';
 import 'core/bloc/start_up_theme_load/start_up_theme_load_bloc.dart';
@@ -27,14 +28,20 @@ class _RootMaterialAppState extends State<RootMaterialApp> {
   late bool _isLoaded = false;
 
   late ThemeMode _themeMode = ThemeMode.system;
-  void _changeTheme({required ThemeMode themeMode,}){
+
+  void _changeTheme({
+    required ThemeMode themeMode,
+  }) {
     setState(() {
       _themeMode = themeMode;
     });
   }
 
   late Locale? _locale;
-  void _changeLanguage({required Locale? locale,}){
+
+  void _changeLanguage({
+    required Locale? locale,
+  }) {
     setState(() {
       _locale = locale;
     });
@@ -56,28 +63,34 @@ class _RootMaterialAppState extends State<RootMaterialApp> {
         listeners: [
           BlocListener<StartUpThemeLoadBloc, StartUpThemeLoadState>(
             listener: (context, state) {
-              if(state is LoadThemeFromLocalStorageSuccess){
-                _changeTheme(themeMode: state.themeMode,);
+              if (state is LoadThemeFromLocalStorageSuccess) {
+                _changeTheme(
+                  themeMode: state.themeMode,
+                );
               }
             },
           ),
           BlocListener<StartUpLocaleLoadBloc, StartUpLocaleLoadState>(
             listener: (context, state) {
-              if(state is LoadLocaleFromLocalStorageSuccess){
-                _changeLanguage(locale: state.locale,);
+              if (state is LoadLocaleFromLocalStorageSuccess) {
+                _changeLanguage(
+                  locale: state.locale,
+                );
               }
             },
           ),
           BlocListener<ThemeSwitcherBloc, ThemeSwitcherState>(
             listener: (context, state) {
-              if(state is ChangeThemeSuccess){
-                _changeTheme(themeMode: state.themeMode,);
+              if (state is ChangeThemeSuccess) {
+                _changeTheme(
+                  themeMode: state.themeMode,
+                );
               }
             },
           ),
           BlocListener<LogoutBloc, LogoutState>(
             listener: (context, state) {
-              if(state is LogoutSuccess){
+              if (state is LogoutSuccess) {
                 setState(() {
                   _isAuth = false;
                 });
@@ -86,7 +99,7 @@ class _RootMaterialAppState extends State<RootMaterialApp> {
           ),
           BlocListener<LoginBloc, LoginState>(
             listener: (context, state) {
-              if(state is LoginSuccess){
+              if (state is LoginSuccess) {
                 setState(() {
                   _isAuth = true;
                 });
@@ -95,21 +108,21 @@ class _RootMaterialAppState extends State<RootMaterialApp> {
           ),
           BlocListener<LanguageSwitcherBloc, LanguageSwitcherState>(
             listener: (context, state) {
-              if(state is ChangeLocaleSuccess){
+              if (state is ChangeLocaleSuccess) {
                 _changeLanguage(locale: state.locale);
               }
             },
-          )
+          ),
         ],
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
           onGenerateTitle: (BuildContext context) =>
-          AppLocalizations.of(context)!.title,
+              AppLocalizations.of(context)!.title,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           locale: _locale,
-          theme: ThemeData.light(),
-          darkTheme: ThemeData.dark(),
+          theme: lightTheme,
+          darkTheme: darkTheme,
           themeMode: _themeMode,
           routerDelegate: AutoRouterDelegate.declarative(
             _appRouter,
@@ -123,30 +136,57 @@ class _RootMaterialAppState extends State<RootMaterialApp> {
             ],
           ),
           routeInformationParser: _appRouter.defaultRouteParser(),
-          builder: (BuildContext context, Widget? child) => _isLoaded ? child! : StartUpLoadingPage(loadingCallback: (isLoaded) {
-            setState(() {
-              _isLoaded = isLoaded;
-            });
-          },),
+          builder: (BuildContext context, Widget? child) {
+            if (_isLoaded) {
+              return child!;
+            }
+            return StartUpLoadingPage(
+              loadingCallback: (isLoaded) {
+                setState(() {
+                  _isLoaded = isLoaded;
+                });
+              },
+            );
+          },
         ),
-      )
+      ),
     );
   }
 }
 
-
-class StartUpMultiBlocProvider extends MultiBlocProvider{
-  StartUpMultiBlocProvider({Key? key, required Widget child,}) : super(key: key, 
-    child: child,
-    providers: [
-      BlocProvider<StartUpCheckAuthBloc>(create: (context) => StartUpCheckAuthBloc(),),
-      BlocProvider<StartUpThemeLoadBloc>(create: (context) => StartUpThemeLoadBloc(localStorage: SharedPreferences.getInstance(),),),
-      BlocProvider<ThemeSwitcherBloc>(create: (context) => ThemeSwitcherBloc(localStorage: SharedPreferences.getInstance(),),),
-      BlocProvider<LoginBloc>(create: (context) => LoginBloc(),),
-      BlocProvider<LogoutBloc>(create: (context) => LogoutBloc(),),
-      BlocProvider<LanguageSwitcherBloc>(create: (context) => LanguageSwitcherBloc(localeStorage: SharedPreferences.getInstance(),),),
-      BlocProvider<StartUpLocaleLoadBloc>(create: (context) => StartUpLocaleLoadBloc(localStorage: SharedPreferences.getInstance(),),),
-      BlocProvider<NetworkCheckerBloc>(create: (context) => NetworkCheckerBloc()..add(const CheckNetworkStatus()),),
-    ]
-  );
+class StartUpMultiBlocProvider extends MultiBlocProvider {
+  StartUpMultiBlocProvider({
+    Key? key,
+    required Widget child,
+  }) : super(
+          key: key,
+          child: child,
+          providers: [
+            BlocProvider<StartUpCheckAuthBloc>(
+              create: (context) => StartUpCheckAuthBloc(),
+            ),
+            BlocProvider<StartUpThemeLoadBloc>(
+              create: (context) => getIt<StartUpThemeLoadBloc>(),
+            ),
+            BlocProvider<ThemeSwitcherBloc>(
+              create: (context) => getIt<ThemeSwitcherBloc>(),
+            ),
+            BlocProvider<LoginBloc>(
+              create: (context) => LoginBloc(),
+            ),
+            BlocProvider<LogoutBloc>(
+              create: (context) => LogoutBloc(),
+            ),
+            BlocProvider<LanguageSwitcherBloc>(
+              create: (context) => getIt<LanguageSwitcherBloc>(),
+            ),
+            BlocProvider<StartUpLocaleLoadBloc>(
+              create: (context) => getIt<StartUpLocaleLoadBloc>(),
+            ),
+            BlocProvider<NetworkCheckerBloc>(
+              create: (context) =>
+                  NetworkCheckerBloc()..add(const CheckNetworkStatus()),
+            ),
+          ],
+        );
 }

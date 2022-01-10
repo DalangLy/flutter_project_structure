@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:project_structure/core/enum/app_locale.dart';
+import 'package:project_structure/config/app_locale/app_locale.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'language_switcher_event.dart';
@@ -10,7 +10,7 @@ part 'language_switcher_state.dart';
 
 class LanguageSwitcherBloc extends Bloc<LanguageSwitcherEvent, LanguageSwitcherState> {
   final Future<SharedPreferences> _prefs;
-  LanguageSwitcherBloc({required Future<SharedPreferences> localeStorage,}) : _prefs = localeStorage, super(LanguageSwitcherInitial()) {
+  LanguageSwitcherBloc({required Future<SharedPreferences> localStorage,}) : _prefs = localStorage, super(LanguageSwitcherInitial()) {
     on<LanguageSwitcherEvent>((event, emit) async{
       if(event is ChangeLanguage){
         emit(const ChangeLocaleInProgress());
