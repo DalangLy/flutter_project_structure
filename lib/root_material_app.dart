@@ -7,7 +7,7 @@ import 'package:project_structure/core/bloc/network_checker/network_checker_bloc
 import 'package:project_structure/core/bloc/start_up_check_auth/start_up_check_auth_bloc.dart';
 import 'package:project_structure/features/login/presentation/bloc/login_bloc.dart';
 import 'package:project_structure/injectors/injector.dart';
-import 'package:project_structure/l10n/gen_l10n/app_localizations.dart';
+import 'config/app_locale/l10n/gen_l10n/app_localizations.dart';
 import 'config/routes/default_route/router.gr.dart';
 import 'core/bloc/language_switcher/language_switcher_bloc.dart';
 import 'core/bloc/start_up_locale_load/start_up_locale_load_bloc.dart';

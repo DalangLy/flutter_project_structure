@@ -67,11 +67,11 @@ class EndDrawer extends StatelessWidget {
         ),
         ListTile(
           leading: const Icon(Icons.language),
-          title: const Text('Spain'),
+          title: const Text('Khmer'),
           onTap: () {
             BlocProvider.of<LanguageSwitcherBloc>(context).add(
               const ChangeLanguage(
-                appLocale: AppLocale.spain,),
+                appLocale: AppLocale.khmer,),
             );
           },
         ),

@@ -11,5 +11,5 @@ class AppLocalizationsEs extends AppLocalizations {
   String get title => 'Flutter Demo';
 
   @override
-  String get helloWorld => '¡Hola Mundo!';
+  String get dashboard => 'Dashboard ES';
 }
