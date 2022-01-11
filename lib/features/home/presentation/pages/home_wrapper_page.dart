@@ -17,7 +17,7 @@ class HomeWrapperPage extends StatefulWidget {
 
 class _HomeWrapperPageState extends State<HomeWrapperPage> {
   final List<MainNavigationItem> _navigationItems = const <MainNavigationItem>[
-    MainNavigationItem(title: 'Dashboard', iconData: Icons.speed, route: DashboardRoute(), path: 'dashboard',),
+    MainNavigationItem(title: 'Dashboard', iconData: Icons.speed, route: DashboardRoute(), path: '',),
     MainNavigationItem(title: 'Item', iconData: Icons.category, route: ItemWrapperRoute(), path: 'items', children: <MainNavigationItem>[
       MainNavigationItem(title: 'Items', iconData: Icons.title, route: ItemWrapperRoute(), path: 'items',),
       // MainNavigationItem(title: 'Item Groups', iconData: Icons.group_work, route: ItemGroupWrapperRoute(), path: 'item_groups',),
