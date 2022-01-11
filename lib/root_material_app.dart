@@ -61,6 +61,20 @@ class _RootMaterialAppState extends State<RootMaterialApp> {
     return StartUpMultiBlocProvider(
       child: MultiBlocListener(
         listeners: [
+          // BlocListener<StartUpCheckAuthBloc, StartUpCheckAuthState>(
+          //   listener: (context, state) {
+          //     if(state is CheckAuthSuccess){
+          //       setState(() {
+          //         _isAuth = true;
+          //       });
+          //     }
+          //     else{
+          //       setState(() {
+          //         _isAuth = false;
+          //       });
+          //     }
+          //   },
+          // ),
           BlocListener<StartUpThemeLoadBloc, StartUpThemeLoadState>(
             listener: (context, state) {
               if (state is LoadThemeFromLocalStorageSuccess) {
@@ -163,7 +177,7 @@ class StartUpMultiBlocProvider extends MultiBlocProvider {
           child: child,
           providers: [
             BlocProvider<StartUpCheckAuthBloc>(
-              create: (context) => StartUpCheckAuthBloc(),
+              create: (context) => getIt<StartUpCheckAuthBloc>(),
             ),
             BlocProvider<StartUpThemeLoadBloc>(
               create: (context) => getIt<StartUpThemeLoadBloc>(),

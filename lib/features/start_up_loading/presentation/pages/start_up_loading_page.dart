@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_structure/core/bloc/network_checker/network_checker_bloc.dart';
 import 'package:project_structure/core/bloc/start_up_check_auth/start_up_check_auth_bloc.dart';
 import 'package:project_structure/core/bloc/start_up_locale_load/start_up_locale_load_bloc.dart';
 import 'package:project_structure/core/bloc/start_up_theme_load/start_up_theme_load_bloc.dart';
@@ -85,7 +86,7 @@ class _StartUpLoadingPageState extends State<StartUpLoadingPage>
       listeners: [
         BlocListener<StartUpCheckAuthBloc, StartUpCheckAuthState>(
           listener: (context, state) {
-            if(state is CheckAuthSuccess){
+            if(state is !StartUpCheckAuthInitial){
               _updateProgressValue(1/3);
               _updateLoadingText(text: 'Check Auth...');
             }
@@ -104,6 +105,16 @@ class _StartUpLoadingPageState extends State<StartUpLoadingPage>
             if(state is LoadThemeFromLocalStorageSuccess){
               _updateProgressValue(1/3);
               _updateLoadingText(text: 'Check Theme...');
+            }
+          },
+        ),
+        BlocListener<NetworkCheckerBloc, NetworkCheckerState>(
+          listener: (context, state) {
+            if(state is IsOnline){
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Online using ${state.type}'),),);
+            }
+            else{
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Offline'),),);
             }
           },
         ),

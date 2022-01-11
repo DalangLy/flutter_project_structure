@@ -11,21 +11,30 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation> {
   String _path = '';
-  @override
-  void initState() {
-    super.initState();
-
-    AutoRouter.of(context).addListener(() {
-      setState(() {
-        _path = AutoRouter.of(context).currentSegments[1].path;
-      });
-    });
-  }
 
   static const Color _drawerHeaderColor = Color(0xFF303C54);
   static const Color _drawerBackgroundColor = Color(0xFF3C4B64);
   static const Color _selectedColor = Color(0xFF3B4659);
   static const Color _expansionTileBackgroundColor = Color(0xFF303C50);
+
+  @override
+  void initState() {
+    super.initState();
+
+    AutoRouter.of(context).addListener(() {
+      print(AutoRouter.of(context).currentSegments[1].path);
+      // if(AutoRouter.of(context).currentSegments[1].path != _path){
+      //   print('hello world');
+      // }
+    });
+  }
+
+  @override
+  void dispose() {
+    AutoRouter.of(context).dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {

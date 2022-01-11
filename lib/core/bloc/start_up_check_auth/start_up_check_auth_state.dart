@@ -17,8 +17,14 @@ class CheckAuthInProgress extends StartUpCheckAuthState {
 }
 
 class CheckAuthSuccess extends StartUpCheckAuthState {
-  final bool isAuth;
-  const CheckAuthSuccess({required this.isAuth,});
+  const CheckAuthSuccess();
+  @override
+  List<Object> get props => [];
+}
+
+class CheckAuthFailed extends StartUpCheckAuthState {
+  final String message;
+  const CheckAuthFailed({required this.message,});
 
   @override
   List<Object> get props => [];
