@@ -20,7 +20,7 @@ class _MainNavigationState extends State<MainNavigation> {
     return Drawer(
       backgroundColor: _drawerBackgroundColor,
       child: NavigationBuilder(
-        builder: (context, path) {
+        builder: (BuildContext context, String path) {
           return ListView(
             children: [
               const DrawerHeader(
