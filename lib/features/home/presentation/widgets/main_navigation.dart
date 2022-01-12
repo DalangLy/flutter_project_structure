@@ -53,6 +53,7 @@ class _MainNavigationState extends State<MainNavigation> {
       backgroundColor: _expansionTileBackgroundColor,
       collapsedBackgroundColor: _drawerBackgroundColor,
       children: mainNavigationItem.children.map((child){
+        final bool isSelected = path == (child.path ?? child.title.toLowerCase());
         return Material(
           child: ListTile(
             leading: Icon(child.iconData, color: Colors.white,),
@@ -60,10 +61,11 @@ class _MainNavigationState extends State<MainNavigation> {
             onTap: () {
               AutoRouter.of(context).push(child.route,);
             },
-            selected: path == (child.path ?? child.title.toLowerCase()),
+            selected: isSelected,
             selectedTileColor: _selectedColor,
             contentPadding: const EdgeInsets.only(left: 30),
             tileColor: _expansionTileBackgroundColor,
+            trailing: isSelected ? const Icon(Icons.blur_on, color: Colors.white,) : null,
           ),
         );
       }).toList(),
@@ -71,15 +73,17 @@ class _MainNavigationState extends State<MainNavigation> {
   }
 
   Widget _navigationItem({required MainNavigationItem mainNavigationItem, required String path,}){
+    final bool isSelected =  path == (mainNavigationItem.path ?? mainNavigationItem.title.toLowerCase());
     return ListTile(
       leading: Icon(mainNavigationItem.iconData, color: Colors.white,),
       title: Text(mainNavigationItem.title, style: const TextStyle(color: Colors.white),),
       onTap: () {
         AutoRouter.of(context).push(mainNavigationItem.route,);
       },
-      selected: path == (mainNavigationItem.path ?? mainNavigationItem.title.toLowerCase()),
+      selected: isSelected,
       selectedTileColor: _selectedColor,
       tileColor: _drawerBackgroundColor,
+      trailing: isSelected ? const Icon(Icons.blur_on, color: Colors.white,) : null,
     );
   }
 }
