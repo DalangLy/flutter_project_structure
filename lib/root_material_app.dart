@@ -10,7 +10,6 @@ import 'package:project_structure/injectors/injector.dart';
 import 'config/app_locale/l10n/gen_l10n/app_localizations.dart';
 import 'config/routes/default_route/router.gr.dart';
 import 'core/bloc/language_switcher/language_switcher_bloc.dart';
-import 'core/bloc/start_up_locale_load/start_up_locale_load_bloc.dart';
 import 'core/bloc/theme_switcher/theme_switcher_bloc.dart';
 import 'features/start_up_loading/presentation/pages/start_up_loading_page.dart';
 
@@ -71,15 +70,6 @@ class _RootMaterialAppState extends State<RootMaterialApp> {
                 setState(() {
                   _isAuth = false;
                 });
-              }
-            },
-          ),
-          BlocListener<StartUpLocaleLoadBloc, StartUpLocaleLoadState>(
-            listener: (context, state) {
-              if (state is LoadLocaleFromLocalStorageSuccess) {
-                _changeLanguage(
-                  locale: state.locale,
-                );
               }
             },
           ),
@@ -180,9 +170,6 @@ class StartUpMultiBlocProvider extends MultiBlocProvider {
             ),
             BlocProvider<LanguageSwitcherBloc>(
               create: (context) => getIt<LanguageSwitcherBloc>(),
-            ),
-            BlocProvider<StartUpLocaleLoadBloc>(
-              create: (context) => getIt<StartUpLocaleLoadBloc>(),
             ),
             BlocProvider<NetworkCheckerBloc>(
               create: (context) =>

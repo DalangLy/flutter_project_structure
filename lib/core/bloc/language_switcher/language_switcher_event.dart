@@ -11,3 +11,10 @@ class ChangeLanguage extends LanguageSwitcherEvent {
   @override
   List<Object> get props => [];
 }
+
+class LoadLocaleFromLocalStorage extends LanguageSwitcherEvent {
+  const LoadLocaleFromLocalStorage();
+
+  @override
+  List<Object> get props => [];
+}

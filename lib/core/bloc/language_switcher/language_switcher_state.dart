@@ -17,7 +17,7 @@ class ChangeLocaleInProgress extends LanguageSwitcherState {
 }
 
 class ChangeLocaleSuccess extends LanguageSwitcherState {
-  final Locale locale;
+  final Locale? locale;
   const ChangeLocaleSuccess({required this.locale,});
 
   @override

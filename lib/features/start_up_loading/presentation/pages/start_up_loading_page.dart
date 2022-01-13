@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_structure/core/bloc/language_switcher/language_switcher_bloc.dart';
 import 'package:project_structure/core/bloc/network_checker/network_checker_bloc.dart';
 import 'package:project_structure/core/bloc/start_up_check_auth/start_up_check_auth_bloc.dart';
-import 'package:project_structure/core/bloc/start_up_locale_load/start_up_locale_load_bloc.dart';
 import 'package:project_structure/core/bloc/theme_switcher/theme_switcher_bloc.dart';
 
 class StartUpLoadingPage extends StatefulWidget {
@@ -53,7 +53,7 @@ class _StartUpLoadingPageState extends State<StartUpLoadingPage>
     BlocProvider.of<StartUpCheckAuthBloc>(context).add(
       const CheckAuth(),
     );
-    BlocProvider.of<StartUpLocaleLoadBloc>(context).add(const LoadLocaleFromLocalStorage());
+    BlocProvider.of<LanguageSwitcherBloc>(context).add(const LoadLocaleFromLocalStorage());
     BlocProvider.of<ThemeSwitcherBloc>(context).add(const LoadThemeFromLocalStorage());
   }
 
@@ -92,9 +92,9 @@ class _StartUpLoadingPageState extends State<StartUpLoadingPage>
             }
           },
         ),
-        BlocListener<StartUpLocaleLoadBloc, StartUpLocaleLoadState>(
+        BlocListener<LanguageSwitcherBloc, LanguageSwitcherState>(
           listener: (context, state) {
-            if(state is LoadLocaleFromLocalStorageSuccess){
+            if(state is ChangeLocaleSuccess){
               _updateProgressValue(1/3);
               _updateLoadingText(text: 'Load Locale...');
             }
