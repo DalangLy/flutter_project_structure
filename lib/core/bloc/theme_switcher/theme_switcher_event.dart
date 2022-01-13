@@ -11,3 +11,10 @@ class ChangeTheme extends ThemeSwitcherEvent {
   @override
   List<Object> get props => [];
 }
+
+class LoadThemeFromLocalStorage extends ThemeSwitcherEvent {
+  const LoadThemeFromLocalStorage();
+
+  @override
+  List<Object> get props => [];
+}

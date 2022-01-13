@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_structure/core/bloc/network_checker/network_checker_bloc.dart';
 import 'package:project_structure/core/bloc/start_up_check_auth/start_up_check_auth_bloc.dart';
 import 'package:project_structure/core/bloc/start_up_locale_load/start_up_locale_load_bloc.dart';
-import 'package:project_structure/core/bloc/start_up_theme_load/start_up_theme_load_bloc.dart';
+import 'package:project_structure/core/bloc/theme_switcher/theme_switcher_bloc.dart';
 
 class StartUpLoadingPage extends StatefulWidget {
   final Function(
@@ -54,7 +54,7 @@ class _StartUpLoadingPageState extends State<StartUpLoadingPage>
       const CheckAuth(),
     );
     BlocProvider.of<StartUpLocaleLoadBloc>(context).add(const LoadLocaleFromLocalStorage());
-    BlocProvider.of<StartUpThemeLoadBloc>(context).add(const LoadThemeFromLocalStorage());
+    BlocProvider.of<ThemeSwitcherBloc>(context).add(const LoadThemeFromLocalStorage());
   }
 
   @override
@@ -100,9 +100,9 @@ class _StartUpLoadingPageState extends State<StartUpLoadingPage>
             }
           },
         ),
-        BlocListener<StartUpThemeLoadBloc, StartUpThemeLoadState>(
+        BlocListener<ThemeSwitcherBloc, ThemeSwitcherState>(
           listener: (context, state) {
-            if(state is LoadThemeFromLocalStorageSuccess){
+            if(state is ChangeThemeSuccess){
               _updateProgressValue(1/3);
               _updateLoadingText(text: 'Check Theme...');
             }
