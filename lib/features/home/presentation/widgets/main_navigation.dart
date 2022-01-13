@@ -59,11 +59,14 @@ class _MainNavigationState extends State<MainNavigation> {
             leading: Icon(child.iconData, color: Colors.white,),
             title: Text(child.title, style: const TextStyle(color: Colors.white),),
             onTap: () {
+              if(isSelected){
+                return;
+              }
               AutoRouter.of(context).push(child.route,);
             },
             selected: isSelected,
             selectedTileColor: _selectedColor,
-            contentPadding: const EdgeInsets.only(left: 30),
+            contentPadding: const EdgeInsets.only(left: 30, right: 10.0),
             tileColor: _expansionTileBackgroundColor,
             trailing: isSelected ? const Icon(Icons.blur_on, color: Colors.white,) : null,
           ),
@@ -78,6 +81,9 @@ class _MainNavigationState extends State<MainNavigation> {
       leading: Icon(mainNavigationItem.iconData, color: Colors.white,),
       title: Text(mainNavigationItem.title, style: const TextStyle(color: Colors.white),),
       onTap: () {
+        if(isSelected){
+          return;
+        }
         AutoRouter.of(context).push(mainNavigationItem.route,);
       },
       selected: isSelected,
